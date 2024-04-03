@@ -1,12 +1,16 @@
 import './App.css'
-import React from 'react';
+import React, { useState } from 'react';
 import StartPage from './pages/StartPage';
+import { DarkModeContext } from './contexts/DarkModeContext';
 
 function App() {
+  const [isDark,setDark] = useState(true);
   return (
-    <div className="App">
-      <StartPage/>
-    </div>
+    <DarkModeContext.Provider  value={{isDark,setDark}} >
+      <div className="App" style={{backgroundColor:isDark?'#212121':'#ffffff'}}>
+        <StartPage/>
+      </div>
+    </DarkModeContext.Provider>
   );
 }
 
