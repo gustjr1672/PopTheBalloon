@@ -1,12 +1,11 @@
-// src/App.js
-
+import './App.css'
 import React from 'react';
-import GamePage from './pages/GamePage';
+import StartPage from './pages/StartPage';
 
 function App() {
   return (
     <div className="App">
-      <GamePage />
+      <StartPage/>
     </div>
   );
 }
