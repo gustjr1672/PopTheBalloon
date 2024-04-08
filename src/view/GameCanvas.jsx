@@ -1,22 +1,32 @@
 // src/view/GameCanvas.jsx
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import neddleImgPath from '../images/needle.png'
+import bubbleImgPath from '../images/bubble.png'
 import {RainbowBorderCanvas} from '../styles/GameCanvas.style'
-
-
+import CollisionCheck from '../core/CollisionCheck'
+import { ScoreContext } from '../contexts/ScoreContext';
 
 function GameCanvas({setNeedleCnt}) {    
 
   const needleImg = new Image();
   needleImg.src = neddleImgPath;
+  
+  const bubbleImg = new Image();
+  bubbleImg.src = bubbleImgPath;
 
   const canvasSize = {x:380, y:680};
-  const [needlePosition, setneedlePosition] = useState({x: 40, y: 10 });
-
   const canvasRef = useRef(null);
+
+  const [needlePosition, setneedlePosition] = useState({x: 40, y: 10 });
+  const [bubblePosition, setBubblePosition] = useState({x:150 , y: canvasSize.y - 100 });
+  const [bubbleFrame, setBubbleFrame] = useState([0,0]);
+
   const [isDropping, setIsDroping] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
+  const [popBubbleInterval, setpopBubbleInterval] = useState(null);
+
+  const {setScore} = useContext(ScoreContext);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,12 +35,20 @@ function GameCanvas({setNeedleCnt}) {
     const animate = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(needleImg, needlePosition.x, needlePosition.y , 60, 60);
+      if(bubbleFrame[0] < 8){
+        context.drawImage(bubbleImg, 160*(bubbleFrame[0]%4), 184*(bubbleFrame[1]%2), 160 ,185, bubblePosition.x , bubblePosition.y , 43 , 53);
+      }
       requestAnimationFrame(animate);
     };
 
     animate();
     
     if (needlePosition.y >= canvas.height) {
+      if(popBubbleInterval){
+        console.log(popBubbleInterval); 
+        setScore((prev)=>prev+1);
+      } 
+      clearInterval(popBubbleInterval);
       clearInterval(intervalId);
 
       setneedlePosition({x:40,y:10});
@@ -52,11 +70,17 @@ function GameCanvas({setNeedleCnt}) {
       setIsDroping(true);
       
       if(!isDropping){
+        let popBubble;
         const dropNeedle = setInterval(() => {
-          setneedlePosition((prevPosition) => ({
-            ...prevPosition,
-            y: prevPosition.y+9,
-          }));
+          setneedlePosition((prevPosition) => {
+            const updatedPosition = { ...prevPosition, y: prevPosition.y + 9 };
+            if(!popBubble){
+              popBubble = CollisionCheck(updatedPosition, bubblePosition, setBubbleFrame);
+              setpopBubbleInterval(popBubble);
+            }
+            return updatedPosition;
+          });
+
         }, 16);
 
         setIntervalId(dropNeedle); 
