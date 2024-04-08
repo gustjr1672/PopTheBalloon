@@ -6,4 +6,15 @@
   text-align: center;
   justify-content: center;
   width: 100%;
+  font-family: 'monggle';
+}
+
+@font-face {
+  font-family: "monggle";
+  src: url(/src/assets/fonts/몽글몽글.ttf);
+  font-weight: 700;
+}
+
+a{
+  text-decoration: none; 
 }

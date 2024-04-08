@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-
-const StartButton = styled.button`
+import {Link} from 'react-router-dom';
+const StartButton = styled(Link)`
   --glow-color: rgb(217, 176, 255);
   --glow-spread-color: rgba(191, 123, 255, 0.3);
   --enhanced-glow-color: rgb(231, 206, 255);

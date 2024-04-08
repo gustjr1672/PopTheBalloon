@@ -4,7 +4,6 @@ export const SwitchWrapper = styled.div`
   text-align : right;
   width: 95%;
   padding-top: 15px;
-  margin-bottom: 150px;
 `;
 export const SwitchContainer = styled.label`
   font-size: 17px;

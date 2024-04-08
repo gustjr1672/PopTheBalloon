@@ -5,6 +5,7 @@ import  StartButton  from "../styles/StartBtn.style";
 import HelpButton from "../styles/HelpBtn.style";
 import DarkModeBtn from "../components/DarkModeBtn"
 
+
 function StartPage() {
 
   return (
@@ -51,7 +52,7 @@ function StartPage() {
         </BubbleContainer>
 
         <ButtonWrap>
-          <StartButton>Game start</StartButton>
+          <StartButton to='./game'>Game start</StartButton>
           <HelpButton>help</HelpButton>
         </ButtonWrap>
       </Container>
@@ -72,7 +73,7 @@ place-items: center;
 flex-direction: column;
 gap: 150px;
 justify-content: center;
-// min-height: 100vh;
+margin-top: 150px;
 `
 
 const ButtonWrap = styled.div`
